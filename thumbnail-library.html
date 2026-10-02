@@ -1,0 +1,969 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>AI Thumbnail Library | AkhilRise</title>
+  <meta name="description" content="Premium AI thumbnail templates and ready-to-use prompts by AkhilRise.">
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      background: #0b0b0f;
+      color: #ffffff;
+      min-height: 100vh;
+    }
+
+    .container {
+      width: min(1180px, 92%);
+      margin: auto;
+    }
+
+    /* HEADER */
+    header {
+      padding: 24px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .header-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
+
+    .logo {
+      color: #ffffff;
+      text-decoration: none;
+      font-size: 22px;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+    }
+
+    .back-link {
+      color: #aaa;
+      text-decoration: none;
+      font-size: 14px;
+      transition: 0.2s;
+    }
+
+    .back-link:hover {
+      color: #ffffff;
+    }
+
+    /* HERO */
+    .hero {
+      text-align: center;
+      padding: 75px 0 55px;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 7px 14px;
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 50px;
+      color: #b7b7c5;
+      font-size: 13px;
+      margin-bottom: 20px;
+      background: rgba(255,255,255,0.03);
+    }
+
+    .hero h1 {
+      font-size: clamp(38px, 6vw, 68px);
+      line-height: 1;
+      letter-spacing: -2.5px;
+      margin-bottom: 20px;
+    }
+
+    .gradient-text {
+      background: linear-gradient(90deg, #ffffff, #9b8cff, #ff65c7);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero p {
+      max-width: 650px;
+      margin: auto;
+      color: #9c9ca8;
+      font-size: 17px;
+      line-height: 1.7;
+    }
+
+    /* LIBRARY */
+    .library-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 25px;
+      gap: 20px;
+    }
+
+    .library-header h2 {
+      font-size: 25px;
+    }
+
+    .count {
+      color: #888894;
+      font-size: 14px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 22px;
+      padding-bottom: 80px;
+    }
+
+    /* CARD */
+    .card {
+      background: #121218;
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 18px;
+      overflow: hidden;
+      transition: transform 0.25s ease, border-color 0.25s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+      border-color: rgba(255,255,255,0.18);
+    }
+
+    .thumbnail {
+      aspect-ratio: 9 / 16;
+      background:
+        linear-gradient(135deg, #171720, #29203b);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .thumbnail::before {
+      content: "THUMBNAIL PREVIEW";
+      color: rgba(255,255,255,0.18);
+      font-size: 12px;
+      letter-spacing: 2px;
+      font-weight: 700;
+    }
+
+    .card-content {
+      padding: 18px;
+    }
+
+    .template-number {
+      color: #777783;
+      font-size: 12px;
+      margin-bottom: 7px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .card h3 {
+      font-size: 19px;
+      margin-bottom: 15px;
+    }
+
+    .copy-btn {
+      width: 100%;
+      padding: 12px 15px;
+      border: none;
+      border-radius: 10px;
+      background: #ffffff;
+      color: #08080b;
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    .copy-btn:hover {
+      background: #dddddd;
+    }
+
+    /* PROMPT MODAL */
+    .modal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.78);
+      backdrop-filter: blur(8px);
+      z-index: 1000;
+      padding: 20px;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .modal.active {
+      display: flex;
+    }
+
+    .modal-box {
+      width: min(700px, 100%);
+      max-height: 85vh;
+      background: #15151c;
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 20px;
+      padding: 25px;
+      overflow-y: auto;
+    }
+
+    .modal-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 15px;
+      margin-bottom: 18px;
+    }
+
+    .modal-top h2 {
+      font-size: 22px;
+    }
+
+    .close {
+      width: 35px;
+      height: 35px;
+      border: none;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.08);
+      color: white;
+      cursor: pointer;
+      font-size: 18px;
+    }
+
+    .prompt-box {
+      background: #0b0b0f;
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 12px;
+      padding: 18px;
+      color: #c9c9d1;
+      font-size: 14px;
+      line-height: 1.7;
+      white-space: pre-wrap;
+      margin-bottom: 18px;
+    }
+
+    .modal-copy {
+      width: 100%;
+      padding: 13px;
+      border: none;
+      border-radius: 10px;
+      background: linear-gradient(90deg, #ffffff, #d9d9ff);
+      color: #09090c;
+      font-weight: 800;
+      cursor: pointer;
+    }
+
+    /* FOOTER */
+    footer {
+      border-top: 1px solid rgba(255,255,255,0.08);
+      padding: 25px 0;
+      text-align: center;
+      color: #70707b;
+      font-size: 13px;
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 850px) {
+      .grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 560px) {
+      .hero {
+        padding: 55px 0 40px;
+      }
+
+      .grid {
+        grid-template-columns: 1fr;
+      }
+
+      .hero p {
+        font-size: 15px;
+      }
+
+      .library-header {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- HEADER -->
+  <header>
+    <div class="container header-inner">
+      <a href="index.html" class="logo">AkhilRise</a>
+      <a href="index.html" class="back-link">← Back to Resources</a>
+    </div>
+  </header>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="container">
+
+      <div class="badge">AI CREATOR RESOURCE</div>
+
+      <h1>
+        AI Thumbnail
+        <span class="gradient-text">Library</span>
+      </h1>
+
+      <p>
+        Premium AI thumbnail templates with ready-to-use prompts
+        for creating scroll-stopping Instagram Reel thumbnails.
+      </p>
+
+    </div>
+  </section>
+
+  <!-- LIBRARY -->
+  <main class="container">
+
+    <div class="library-header">
+      <h2>Premium Templates</h2>
+      <span class="count">15 Templates</span>
+    </div>
+
+    <div class="grid">
+
+      <!-- TEMPLATE 01 -->
+      <div class="card">
+        <div class="thumbnail"></div>
+        <div class="card-content">
+          <div class="template-number">Template 01</div>
+          <h3>Royal Glow</h3>
+          <button class="copy-btn" onclick="openPrompt(0)">
+            View Prompt
+          </button>
+        </div>
+      </div>
+
+      <!-- TEMPLATE 02 -->
+      <div class="card">
+        <div class="thumbnail"></div>
+        <div class="card-content">
+          <div class="template-number">Template 02</div>
+          <h3>Neon Luxe</h3>
+          <button class="copy-btn" onclick="openPrompt(1)">
+            View Prompt
+          </button>
+        </div>
+      </div>
+
+      <!-- TEMPLATE 03 -->
+      <div class="card">
+        <div class="thumbnail"></div>
+        <div class="card-content">
+          <div class="template-number">Template 03</div>
+          <h3>Electric Pop</h3>
+          <button class="copy-btn" onclick="openPrompt(2)">
+            View Prompt
+          </button>
+        </div>
+      </div>
+
+      <!-- TEMPLATE 04 -->
+      <div class="card">
+        <div class="thumbnail"></div>
+        <div class="card-content">
+          <div class="template-number">Template 04</div>
+          <h3>Blue Surge</h3>
+          <button class="copy-btn" onclick="openPrompt(3)">
+            View Prompt
+          </button>
+        </div>
+      </div>
+
+      <!-- TEMPLATE 05 -->
+      <div class="card">
+        <div class="thumbnail"></div>
+        <div class="card-content">
+          <div class="template-number">Template 05</div>
+          <h3>Shockwave</h3>
+          <button class="copy-btn" onclick="openPrompt(4)">
+            View Prompt
+          </button>
+        </div>
+      </div>
+
+      <!-- TEMPLATE 06 -->
+      <div class="card">
+        <div class="thumbnail"></div>
+        <div class="card-content">
+          <div class="template-number">Template 06</div>
+          <h3>Money Rush</h3>
+          <button class="copy-btn" onclick="openPrompt(5)">
+            View Prompt
+          </button>
+        </div>
+      </div>
+
+      <!-- TEMPLATE 07 -->
+      <div class="card">
+        <div class="thumbnail"></div>
+        <div class="card-content">
+          <div class="template-number">Template 07</div>
+          <h3>Green Fortune</h3>
+          <button class="copy-btn" onclick="openPrompt(6)">
+            View Prompt
+          </button>
+        </div>
+      </div>
+
+      <!-- TEMPLATE 08 -->
+      <div class="card">
+        <div class="thumbnail"></div>
+        <div class="card-content">
+          <div class="template-number">Template 08</div>
+          <h3>Neon Vision</h3>
+          <button class="copy-btn" onclick="openPrompt(7)">
+            View Prompt
+          </button>
+        </div>
+      </div>
+
+      <!-- TEMPLATE 09 -->
+      <div class="card">
+        <div class="thumbnail"></div>
+        <div class="card-content">
+          <div class="template-number">Template 09</div>
+          <h3>Red Impact</h3>
+          <button class="copy-btn" onclick="openPrompt(8)">
+            View Prompt
+          </button>
+        </div>
+      </div>
+
+      <!-- TEMPLATE 10 -->
+      <div class="card">
+        <div class="thumbnail"></div>
+        <div class="card-content">
+          <div class="template-number">Template 10</div>
+          <h3>Pink Pro</h3>
+          <button class="copy-btn" onclick="openPrompt(9)">
+            View Prompt
+          </button>
+        </div>
+      </div>
+
+      <!-- TEMPLATE 11 -->
+      <div class="card">
+        <div class="thumbnail"></div>
+        <div class="card-content">
+          <div class="template-number">Template 11</div>
+          <h3>Creative Glow</h3>
+          <button class="copy-btn" onclick="openPrompt(10)">
+            View Prompt
+          </button>
+        </div>
+      </div>
+
+      <!-- TEMPLATE 12 -->
+      <div class="card">
+        <div class="thumbnail"></div>
+        <div class="card-content">
+          <div class="template-number">Template 12</div>
+          <h3>Business Builder</h3>
+          <button class="copy-btn" onclick="openPrompt(11)">
+            View Prompt
+          </button>
+        </div>
+      </div>
+
+      <!-- TEMPLATE 13 -->
+      <div class="card">
+        <div class="thumbnail"></div>
+        <div class="card-content">
+          <div class="template-number">Template 13</div>
+          <h3>Growth Pulse</h3>
+          <button class="copy-btn" onclick="openPrompt(12)">
+            View Prompt
+          </button>
+        </div>
+      </div>
+
+      <!-- TEMPLATE 14 -->
+      <div class="card">
+        <div class="thumbnail"></div>
+        <div class="card-content">
+          <div class="template-number">Template 14</div>
+          <h3>Pink Elite</h3>
+          <button class="copy-btn" onclick="openPrompt(13)">
+            View Prompt
+          </button>
+        </div>
+      </div>
+
+      <!-- TEMPLATE 15 -->
+      <div class="card">
+        <div class="thumbnail"></div>
+        <div class="card-content">
+          <div class="template-number">Template 15</div>
+          <h3>Purple Luxe</h3>
+          <button class="copy-btn" onclick="openPrompt(14)">
+            View Prompt
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- PROMPT MODAL -->
+  <div class="modal" id="promptModal">
+
+    <div class="modal-box">
+
+      <div class="modal-top">
+        <h2 id="modalTitle">Template</h2>
+
+        <button class="close" onclick="closePrompt()">
+          ×
+        </button>
+      </div>
+
+      <div class="prompt-box" id="promptText"></div>
+
+      <button class="modal-copy" onclick="copyPrompt()">
+        Copy Prompt
+      </button>
+
+    </div>
+
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="container">
+      © 2026 AkhilRise · AI Creator Resources
+    </div>
+  </footer>
+
+
+  <script>
+
+    const prompts = [
+
+      `TEMPLATE 01 — Royal Glow
+
+Your uploaded photo is the primary identity reference.
+
+Create a premium 9:16 vertical Instagram Reel thumbnail using the person from the uploaded photo. Preserve the person's recognizable facial features, hairstyle, skin tone and overall identity.
+
+Recreate the Royal Glow template composition closely: rich dark purple and magenta background, subtle architectural/grid details, strong purple glow behind the person, premium lighting and polished social-media thumbnail aesthetic.
+
+Keep the person centered and shown from approximately chest/shoulders up with a confident, friendly smile.
+
+Use this typography structure:
+[SECONDARY TEXT] — elegant white script.
+[MAIN TEXT] — very large yellow-orange gradient headline.
+[BOTTOM TEXT] — white text inside a rounded purple banner.
+
+Include the small dark circular golden crown badge in the upper-left and the glowing purple social icon in the lower-right.
+
+Preserve the composition, lighting, typography hierarchy, colors, effects and graphic placement as closely as possible. Only intentionally change the person using the uploaded photo and the text inside the brackets.
+
+High-resolution, realistic, polished, professional Instagram thumbnail.`,
+
+      `TEMPLATE 02 — Neon Luxe
+
+Use the uploaded photo as the primary identity reference.
+
+Create a premium 9:16 vertical Instagram Reel thumbnail closely recreating the Neon Luxe template.
+
+Preserve the person's recognizable facial features, hairstyle, skin tone and identity. Show the person approximately waist/chest up with the body angled slightly and one hand near the chin or collar.
+
+Use a dark black, deep-purple and neon-magenta futuristic indoor background with cinematic lighting and vibrant neon glow.
+
+Typography:
+[SMALL TEXT] — yellow/lime.
+[MAIN TEXT] — huge purple-magenta headline.
+[SECONDARY TEXT] — elegant white script.
+[BOTTOM TEXT] — neon yellow/lime.
+
+Include the crown badge, white line-art rocket/growth graphic and the fixed vertical "Image Not Included" pill.
+
+Keep the original composition, person placement, lighting, colors, typography hierarchy and graphic elements as closely as possible.
+
+Only change the person using the uploaded photo and the bracketed text.
+
+High-resolution, realistic, premium social-media design.`,
+
+      `TEMPLATE 03 — Electric Pop
+
+Use the uploaded photo as the primary identity reference.
+
+Create a premium 9:16 vertical Instagram Reel thumbnail closely recreating the Electric Pop template.
+
+Preserve the person's recognizable face, hairstyle, skin tone and identity. Show the person in the lower half, approximately chest up, with a surprised or excited expression.
+
+Background: deep navy, dark blue, violet and electric purple with bright purple-blue glow, particles, stars and curved blue-white light trails.
+
+Typography:
+[MAIN TEXT] — large lavender-blue.
+[SECONDARY TEXT] — yellow-orange.
+[SMALL TEXT] — black text inside a bright yellow/orange angled banner.
+
+Include the flame graphic, crown badge and fixed "IMAGE NOT INCLUDED" label.
+
+Preserve the composition, lighting, typography, effects, colors and graphic placement closely.
+
+Only change the person and the bracketed text.
+
+High-resolution, realistic, polished Instagram thumbnail.`,
+
+      `TEMPLATE 04 — Blue Surge
+
+Use the uploaded photo as the primary identity reference.
+
+Create a premium 9:16 vertical Instagram Reel thumbnail closely recreating the Blue Surge template.
+
+Preserve facial identity, hairstyle, skin tone and recognizable features. Show the person in the lower half, chest up, making a pointing gesture with a confident smile.
+
+Use a dark deep-teal and blue background with blue glow and floating particles.
+
+Typography:
+[TOP TEXT] — yellow-orange.
+[MAIN TEXT] — white/silver.
+[SECONDARY TEXT] — yellow-orange.
+[BOTTOM TEXT] — electric blue/cyan.
+
+Include business/idea iconography, laptop/analytics graphics and a growth chart. Include the fixed "IMAGE NOT INCLUDED" label and crown.
+
+Preserve the original composition, lighting, typography hierarchy, colors and effects.
+
+Only change the person and bracketed text.
+
+High-resolution, realistic, premium thumbnail.`,
+
+      `TEMPLATE 05 — Shockwave
+
+Use the uploaded photo as the primary identity reference.
+
+Create a premium 9:16 vertical Instagram Reel thumbnail closely recreating the Shockwave template.
+
+Preserve facial features, hairstyle, skin tone and identity. Show the person waist/chest up with both hands near the temples and a shocked expression.
+
+Use a dark teal, cyan and deep-navy electric atmosphere with cyan glow, lightning, smoke/cloud texture and particles.
+
+Include the fixed "IMAGE NOT INCLUDED" label at the top-right and a red YouTube-style play graphic in the upper-left.
+
+Typography:
+[MAIN TEXT] — white/light cyan.
+[SECONDARY TEXT] — yellow-orange.
+[BOTTOM TEXT] — white.
+
+Include the crown badge, dotted curved lines and glowing cyan strip at the bottom.
+
+Preserve composition, lighting, colors, typography and effects closely.
+
+Only change the person and bracketed text.`,
+
+      `TEMPLATE 06 — Money Rush
+
+Use the uploaded photo as the primary identity reference.
+
+Create a premium 9:16 vertical Instagram Reel thumbnail closely recreating the Money Rush template.
+
+Preserve the person's recognizable facial features, hairstyle, skin tone and identity. Show the person waist up with an excited or surprised expression and one hand making an "OK" gesture.
+
+Use a dark green-to-yellow background with dollar bills and bright yellow-green glow.
+
+Typography:
+[TOP TEXT] — white.
+[MAIN TEXT] — yellow-orange.
+
+Include a tilted white card containing [CARD TEXT] in red.
+
+Add the crown badge, dark green rounded frame and fixed "IMAGE NOT INCLUDED" label at the bottom.
+
+Preserve composition, lighting, typography, effects and colors closely.
+
+Only change the person and bracketed text.
+
+High-resolution, realistic premium Instagram thumbnail.`,
+
+      `TEMPLATE 07 — Green Fortune
+
+Use the uploaded photo as the primary identity reference.
+
+Create a premium 9:16 vertical Instagram Reel thumbnail closely recreating the Green Fortune template.
+
+Preserve the person's recognizable facial features, hairstyle, skin tone and identity. Show the person chest up with a happy, excited smile.
+
+Use a deep forest-green, black and neon-green background with a bright green halo and floating dollar bills.
+
+Typography:
+[SECONDARY TEXT] — elegant white script.
+[MAIN TEXT] — large yellow-orange.
+[BOTTOM TEXT] — green/lime.
+
+Include the dollar-sign graphic, crown badge and fixed "IMAGE NOT INCLUDED" label.
+
+Preserve the composition, lighting, colors, typography and graphic placement closely.
+
+Only change the person and bracketed text.
+
+High-resolution, realistic, polished thumbnail.`,
+
+      `TEMPLATE 08 — Neon Vision
+
+Use the uploaded photo as the primary identity reference.
+
+Create a premium 9:16 vertical Instagram Reel thumbnail closely recreating the Neon Vision template.
+
+Preserve facial features, hairstyle, skin tone and identity. Show the person chest up with a friendly, confident smile.
+
+Use a dark futuristic navy-blue background with blue light streaks, stars/speckles and an electric-blue halo.
+
+Typography:
+[MAIN TEXT] — white/silver.
+[SECONDARY TEXT] — yellow-orange.
+[SMALL TEXT] — cyan/blue.
+
+Include a rocket icon, golden trophy/achievement icon and thin dark rounded border.
+
+Only include the three specified text lines. Do not add random text.
+
+Preserve composition, lighting, typography hierarchy, colors and effects closely.
+
+Only change the person and bracketed text.
+
+High-resolution, realistic premium Instagram thumbnail.`,
+
+      `TEMPLATE 09 — Red Impact
+
+Use the uploaded photo as the primary identity reference.
+
+Create a premium 9:16 vertical Instagram Reel thumbnail closely recreating the Red Impact template.
+
+Preserve the person's recognizable facial features, hairstyle, skin tone and identity. Show the person chest up with a happy smile.
+
+Use a deep red and black YouTube-style background with horizontal light streaks, red glow and particles.
+
+Typography:
+[TOP TEXT] — red with black outline.
+[MAIN TEXT] — yellow-orange.
+[BOTTOM TEXT] — white.
+
+Include the flame graphic.
+
+Do not include a crown, "IMAGE NOT INCLUDED" label or any other unwanted text.
+
+Preserve composition, lighting, typography, effects and colors closely.
+
+Only change the person and bracketed text.
+
+High-resolution, realistic, polished thumbnail.`,
+
+      `TEMPLATE 10 — Pink Pro
+
+Use the uploaded photo as the primary identity reference.
+
+Create a premium 9:16 vertical Instagram Reel thumbnail closely recreating the Pink Pro template.
+
+Preserve facial features, hairstyle, skin tone and identity. Show the person chest up with an energetic surprised or excited expression.
+
+Use a dark magenta/pink background with burgundy-dark pink edges and a bright pink radial glow.
+
+Typography:
+[TOP TEXT] — white.
+[MAIN TEXT] — yellow-orange.
+[BOTTOM TEXT] — pink/magenta.
+
+Include the flame graphic.
+
+Do not include a crown, premium icons, "IMAGE NOT INCLUDED" label or unwanted text.
+
+Preserve composition, lighting, typography hierarchy, colors and effects closely.
+
+Only change the person and bracketed text.
+
+High-resolution, realistic premium Instagram thumbnail.`,
+
+      `TEMPLATE 11 — Creative Glow
+
+Use the uploaded photo as the primary identity reference.
+
+Create a premium 9:16 vertical Instagram Reel thumbnail closely recreating the Creative Glow template.
+
+Preserve the person's facial features, hairstyle, skin tone and identity. Show the person in the lower half with a confident smile.
+
+Use a dark futuristic purple and magenta background with dotted halftone texture, digital patterns and pink glow.
+
+Typography:
+[TOP TEXT] — white-to-pink.
+[MAIN TEXT] — yellow-orange.
+[BOTTOM TEXT] — white.
+
+Include a white curved brush-stroke/swoosh and flame graphic in the upper-right.
+
+Do not include a crown or "IMAGE NOT INCLUDED" label.
+
+Preserve composition, lighting, typography, colors, effects and graphic placement closely.
+
+Only change the person and bracketed text.`,
+
+      `TEMPLATE 12 — Business Builder
+
+Use the uploaded photo as the primary identity reference.
+
+Create a premium 9:16 vertical Instagram Reel thumbnail closely recreating the Business Builder template.
+
+Preserve recognizable facial features, hairstyle, skin tone and identity. Show the person chest/waist up with an excited, surprised and enthusiastic expression.
+
+Use a dark brown/caramel business background with office silhouettes, graphs and warm golden glow.
+
+Typography:
+[TOP TEXT] — white.
+[MAIN TEXT] — yellow-orange.
+[SMALL TEXT] — white.
+[BOTTOM TEXT] — yellow/orange inside a dark rounded box.
+
+Include business icons such as a presentation/document graphic and financial growth/chart graphics with coins.
+
+Do not include a crown or "IMAGE NOT INCLUDED" label.
+
+Preserve composition, lighting, typography, colors and effects closely.
+
+Only change the person and bracketed text.
+
+High-resolution, realistic professional thumbnail.`,
+
+      `TEMPLATE 13 — Growth Pulse
+
+Use the uploaded photo as the primary identity reference.
+
+Create a premium 9:16 vertical Instagram Reel thumbnail closely recreating the Growth Pulse template.
+
+Preserve the person's recognizable facial features, hairstyle, skin tone and identity. Show the person in the lower half with a confident slight smile.
+
+Use a dark futuristic purple business background with violet/dark-purple technology and business textures.
+
+Typography:
+[TOP TEXT] — white with pink/magenta gradient.
+[MAIN TEXT] — yellow-orange.
+[BOTTOM TEXT] — white-to-pink/magenta.
+
+Include money/cash icon, target icon, upward arrow/graph and gear graphics.
+
+Do not include a crown or "IMAGE NOT INCLUDED" label.
+
+Preserve composition, lighting, typography hierarchy, colors and graphic placement closely.
+
+Only change the person and bracketed text.`,
+
+      `TEMPLATE 14 — Pink Elite
+
+Use the uploaded photo as the primary identity reference.
+
+Create a premium 9:16 vertical Instagram Reel thumbnail closely recreating the Pink Elite template.
+
+Preserve facial features, hairstyle, skin tone and identity. Show the person waist/chest up with an excited open-mouth smile.
+
+Use a dark purple/magenta futuristic background with pink-purple glow, lightning-like energy lines, particles and abstract shapes.
+
+Typography across the lower half:
+[TOP TEXT] — pink/magenta.
+[MAIN TEXT] — yellow-orange.
+[BOTTOM TEXT] — white.
+
+Include a heart/like icon near the shoulder and a purple graphic in the lower-right.
+
+Do not include a crown or "IMAGE NOT INCLUDED" label.
+
+Preserve composition, lighting, typography, effects and colors closely.
+
+Only change the person and bracketed text.`,
+
+      `TEMPLATE 15 — Purple Luxe
+
+Use the uploaded photo as the primary identity reference.
+
+Create a premium 9:16 vertical Instagram Reel thumbnail closely recreating the Purple Luxe template.
+
+Preserve the person's recognizable facial features, hairstyle, skin tone and identity. Show the person centered in the lower half with a friendly, confident smile.
+
+Use a dark purple futuristic background with digital textures, particles, purple light patterns and a glowing circular halo.
+
+Typography:
+[TOP TEXT] — lime-green/yellow-green.
+[MAIN TEXT] — yellow-orange.
+[BOTTOM TEXT] — white.
+
+Include the playful emoji graphics on the left and right.
+
+Do not include a crown or "IMAGE NOT INCLUDED" label.
+
+Preserve composition, lighting, typography, colors, effects and graphic placement closely.
+
+Only change the person and bracketed text.
+
+High-resolution, realistic, polished Instagram Reel thumbnail.`
+
+    ];
+
+
+    let currentPrompt = "";
+
+    function openPrompt(index) {
+      const title = document.querySelectorAll(".card h3")[index].innerText;
+
+      currentPrompt = prompts[index];
+
+      document.getElementById("modalTitle").innerText = title;
+      document.getElementById("promptText").innerText = currentPrompt;
+
+      document.getElementById("promptModal").classList.add("active");
+    }
+
+    function closePrompt() {
+      document.getElementById("promptModal").classList.remove("active");
+    }
+
+    async function copyPrompt() {
+
+      try {
+
+        await navigator.clipboard.writeText(currentPrompt);
+
+        const button = document.querySelector(".modal-copy");
+
+        button.innerText = "✓ Prompt Copied!";
+
+        setTimeout(() => {
+          button.innerText = "Copy Prompt";
+        }, 1800);
+
+      } catch (error) {
+
+        alert("Please select and copy the prompt manually.");
+
+      }
+
+    }
+
+    document.getElementById("promptModal").addEventListener("click", function(event) {
+
+      if (event.target === this) {
+        closePrompt();
+      }
+
+    });
+
+  </script>
+
+</body>
+</html>
