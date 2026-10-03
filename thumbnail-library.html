@@ -124,7 +124,7 @@ function closePrompt(){
   document.getElementById("promptModal").classList.remove("active");
 }
 
-async async function useInChatGPT(i, button){
+async function useInChatGPT(i, button){
   const prompt=templates[i].prompt;
   try{
     await navigator.clipboard.writeText(prompt);
@@ -137,7 +137,7 @@ async async function useInChatGPT(i, button){
   }
 }
 
-function copyPrompt(){
+async function copyPrompt(){
   try{
     await navigator.clipboard.writeText(currentPrompt);
     const b=document.querySelector(".modal-copy");
