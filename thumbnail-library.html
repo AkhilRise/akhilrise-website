@@ -26,6 +26,7 @@ header{padding:24px 0;border-bottom:1px solid rgba(255,255,255,.08)}
 .thumbnail img{width:100%;height:100%;display:block;object-fit:contain}
 .card-content{padding:18px}.template-number{color:#777783;font-size:12px;margin-bottom:7px;text-transform:uppercase;letter-spacing:1px}
 .card h3{font-size:19px;margin-bottom:15px}
+.use-chatgpt-btn{width:100%;margin-top:9px;padding:11px 14px;border:1px solid rgba(255,255,255,.14);border-radius:10px;background:linear-gradient(180deg,#202027,#17171d);color:#fff;font-size:13px;font-weight:700;cursor:pointer;transition:.2s ease}.use-chatgpt-btn:hover{border-color:rgba(255,255,255,.3);background:#24242c;transform:translateY(-1px)}.use-chatgpt-btn:active{transform:translateY(0)}
 .copy-btn{width:100%;padding:12px 15px;border:none;border-radius:10px;background:#fff;color:#08080b;font-size:14px;font-weight:700;cursor:pointer}
 .copy-btn:hover{background:#ddd}
 .modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.78);backdrop-filter:blur(8px);z-index:1000;padding:20px;align-items:center;justify-content:center}
@@ -58,7 +59,7 @@ templates.forEach((t,i)=>{
   const n=String(i+1).padStart(2,"0");
   const card=document.createElement("div");
   card.className="card";
-  card.innerHTML=`<div class="thumbnail"><img src="thumbnails/thumbnail-${n}.jpg" alt="${t.name} AI thumbnail" loading="lazy"></div><div class="card-content"><div class="template-number">Template ${n}</div><h3>${t.name}</h3><button class="copy-btn" onclick="openPrompt(${i})">View Prompt</button></div>`;
+  card.innerHTML=`<div class="thumbnail"><img src="thumbnails/thumbnail-${n}.jpg" alt="${t.name} AI thumbnail" loading="lazy"></div><div class="card-content"><div class="template-number">Template ${n}</div><h3>${t.name}</h3><button class="copy-btn" onclick="openPrompt(${i})">View Prompt</button><button class="use-chatgpt-btn" onclick="useInChatGPT(${i}, this)">Use in ChatGPT</button></div>`;
   grid.appendChild(card);
 });
 
@@ -108,7 +109,7 @@ function openPrompt(i){
 
   guide.innerHTML=`
     <div class="edit-guide">
-      <div class="edit-guide-title">✏️ CHANGE THESE TEXTS</div>
+      <div class="edit-guide-title">CHANGE THESE TEXTS</div>
       <div class="edit-guide-sub">Replace the highlighted bracket fields with your own wording. Keep the rest of the prompt unchanged.</div>
       <div class="edit-fields">
         ${fields.map(f=>`<span class="edit-field">${f}</span>`).join("")}
@@ -123,11 +124,24 @@ function closePrompt(){
   document.getElementById("promptModal").classList.remove("active");
 }
 
-async function copyPrompt(){
+async async function useInChatGPT(i, button){
+  const prompt=templates[i].prompt;
+  try{
+    await navigator.clipboard.writeText(prompt);
+    const original=button.innerText;
+    button.innerText="Prompt Copied";
+    window.open("https://chatgpt.com/", "_blank");
+    setTimeout(()=>button.innerText=original,1800);
+  }catch(e){
+    window.open("https://chatgpt.com/", "_blank");
+  }
+}
+
+function copyPrompt(){
   try{
     await navigator.clipboard.writeText(currentPrompt);
     const b=document.querySelector(".modal-copy");
-    b.innerText="✓ Prompt Copied!";
+    b.innerText=" Prompt Copied!";
     setTimeout(()=>b.innerText="Copy Prompt",1800);
   }catch(e){
     alert("Please select and copy the prompt manually.");
