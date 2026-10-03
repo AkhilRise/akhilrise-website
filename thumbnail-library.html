@@ -1,980 +1,229 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <title>AI Thumbnail Library | AkhilRise</title>
-  <meta name="description" content="Premium AI thumbnail templates and ready-to-use prompts by AkhilRise.">
-
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
-    body {
-      font-family: Arial, Helvetica, sans-serif;
-      background: #0b0b0f;
-      color: #ffffff;
-      min-height: 100vh;
-    }
-
-    .container {
-      width: min(1180px, 92%);
-      margin: auto;
-    }
-
-    /* HEADER */
-    header {
-      padding: 24px 0;
-      border-bottom: 1px solid rgba(255,255,255,0.08);
-    }
-
-    .header-inner {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 20px;
-    }
-
-    .logo {
-      color: #ffffff;
-      text-decoration: none;
-      font-size: 22px;
-      font-weight: 800;
-      letter-spacing: -0.5px;
-    }
-
-    .back-link {
-      color: #aaa;
-      text-decoration: none;
-      font-size: 14px;
-      transition: 0.2s;
-    }
-
-    .back-link:hover {
-      color: #ffffff;
-    }
-
-    /* HERO */
-    .hero {
-      text-align: center;
-      padding: 75px 0 55px;
-    }
-
-    .badge {
-      display: inline-block;
-      padding: 7px 14px;
-      border: 1px solid rgba(255,255,255,0.12);
-      border-radius: 50px;
-      color: #b7b7c5;
-      font-size: 13px;
-      margin-bottom: 20px;
-      background: rgba(255,255,255,0.03);
-    }
-
-    .hero h1 {
-      font-size: clamp(38px, 6vw, 68px);
-      line-height: 1;
-      letter-spacing: -2.5px;
-      margin-bottom: 20px;
-    }
-
-    .gradient-text {
-      background: linear-gradient(90deg, #ffffff, #9b8cff, #ff65c7);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
-
-    .hero p {
-      max-width: 650px;
-      margin: auto;
-      color: #9c9ca8;
-      font-size: 17px;
-      line-height: 1.7;
-    }
-
-    /* LIBRARY */
-    .library-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 25px;
-      gap: 20px;
-    }
-
-    .library-header h2 {
-      font-size: 25px;
-    }
-
-    .count {
-      color: #888894;
-      font-size: 14px;
-    }
-
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 22px;
-      padding-bottom: 80px;
-    }
-
-    /* CARD */
-    .card {
-      background: #121218;
-      border: 1px solid rgba(255,255,255,0.08);
-      border-radius: 18px;
-      overflow: hidden;
-      transition: transform 0.25s ease, border-color 0.25s ease;
-    }
-
-    .card:hover {
-      transform: translateY(-5px);
-      border-color: rgba(255,255,255,0.18);
-    }
-
-    .thumbnail {
-  width: 100%;
-  aspect-ratio: 887 / 1577;
-  background: #171720;
-  overflow: hidden;
-}
-
-.thumbnail img {
-  width: 100%;
-  height: 100%;
-  display: block;
-  object-fit: fill;
-}
-
-    .thumbnail::before {
-      content: "THUMBNAIL PREVIEW";
-      color: rgba(255,255,255,0.18);
-      font-size: 12px;
-      letter-spacing: 2px;
-      font-weight: 700;
-    }
-
-    .card-content {
-      padding: 18px;
-    }
-
-    .template-number {
-      color: #777783;
-      font-size: 12px;
-      margin-bottom: 7px;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-    }
-
-    .card h3 {
-      font-size: 19px;
-      margin-bottom: 15px;
-    }
-
-    .copy-btn {
-      width: 100%;
-      padding: 12px 15px;
-      border: none;
-      border-radius: 10px;
-      background: #ffffff;
-      color: #08080b;
-      font-size: 14px;
-      font-weight: 700;
-      cursor: pointer;
-      transition: 0.2s;
-    }
-
-    .copy-btn:hover {
-      background: #dddddd;
-    }
-
-    /* PROMPT MODAL */
-    .modal {
-      display: none;
-      position: fixed;
-      inset: 0;
-      background: rgba(0,0,0,0.78);
-      backdrop-filter: blur(8px);
-      z-index: 1000;
-      padding: 20px;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .modal.active {
-      display: flex;
-    }
-
-    .modal-box {
-      width: min(700px, 100%);
-      max-height: 85vh;
-      background: #15151c;
-      border: 1px solid rgba(255,255,255,0.12);
-      border-radius: 20px;
-      padding: 25px;
-      overflow-y: auto;
-    }
-
-    .modal-top {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 15px;
-      margin-bottom: 18px;
-    }
-
-    .modal-top h2 {
-      font-size: 22px;
-    }
-
-    .close {
-      width: 35px;
-      height: 35px;
-      border: none;
-      border-radius: 50%;
-      background: rgba(255,255,255,0.08);
-      color: white;
-      cursor: pointer;
-      font-size: 18px;
-    }
-
-    .prompt-box {
-      background: #0b0b0f;
-      border: 1px solid rgba(255,255,255,0.08);
-      border-radius: 12px;
-      padding: 18px;
-      color: #c9c9d1;
-      font-size: 14px;
-      line-height: 1.7;
-      white-space: pre-wrap;
-      margin-bottom: 18px;
-    }
-
-    .modal-copy {
-      width: 100%;
-      padding: 13px;
-      border: none;
-      border-radius: 10px;
-      background: linear-gradient(90deg, #ffffff, #d9d9ff);
-      color: #09090c;
-      font-weight: 800;
-      cursor: pointer;
-    }
-
-    /* FOOTER */
-    footer {
-      border-top: 1px solid rgba(255,255,255,0.08);
-      padding: 25px 0;
-      text-align: center;
-      color: #70707b;
-      font-size: 13px;
-    }
-
-    /* RESPONSIVE */
-    @media (max-width: 850px) {
-      .grid {
-        grid-template-columns: repeat(2, 1fr);
-      }
-    }
-
-    @media (max-width: 560px) {
-      .hero {
-        padding: 55px 0 40px;
-      }
-
-      .grid {
-        grid-template-columns: 1fr;
-      }
-
-      .hero p {
-        font-size: 15px;
-      }
-
-      .library-header {
-        align-items: flex-start;
-        flex-direction: column;
-      }
-
-      .thumbnail img {
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-  display: block;
-}
-    </style>
-</head>
-
-<body>
-
-  <!-- HEADER -->
-  <header>
-    <div class="container header-inner">
-      <a href="index.html" class="logo">AkhilRise</a>
-      <a href="index.html" class="back-link">← Back to Resources</a>
-    </div>
-  </header>
-
-  <!-- HERO -->
-  <section class="hero">
-    <div class="container">
-
-      <div class="badge">AI CREATOR RESOURCE</div>
-
-      <h1>
-        AI Thumbnail
-        <span class="gradient-text">Library</span>
-      </h1>
-
-      <p>
-        Premium AI thumbnail templates with ready-to-use prompts
-        for creating scroll-stopping Instagram Reel thumbnails.
-      </p>
-
-    </div>
-  </section>
-
-  <!-- LIBRARY -->
-  <main class="container">
-
-    <div class="library-header">
-      <h2>Premium Templates</h2>
-      <span class="count">15 Templates</span>
-    </div>
-
-    <div class="grid">
-
-     <!-- TEMPLATE 01 -->
-<div class="card">
-  <div class="thumbnail">
-    <img src="https://akhilrise.online/assets/thumbnails/thumbnail-01.jpg" alt="Royal Glow">
-  </div>
-  <div class="card-content">
-    <div class="template-number">Template 01</div>
-    <h3>Royal Glow</h3>
-    <button class="copy-btn" onclick="openPrompt(0)">
-      View Prompt
-    </button>
-  </div>
-</div>
-
-      <!-- TEMPLATE 02 -->
-      <div class="card">
-        <div class="thumbnail"></div>
-        <div class="card-content">
-          <div class="template-number">Template 02</div>
-          <h3>Neon Luxe</h3>
-          <button class="copy-btn" onclick="openPrompt(1)">
-            View Prompt
-          </button>
-        </div>
-      </div>
-
-      <!-- TEMPLATE 03 -->
-      <div class="card">
-        <div class="thumbnail"></div>
-        <div class="card-content">
-          <div class="template-number">Template 03</div>
-          <h3>Electric Pop</h3>
-          <button class="copy-btn" onclick="openPrompt(2)">
-            View Prompt
-          </button>
-        </div>
-      </div>
-
-      <!-- TEMPLATE 04 -->
-      <div class="card">
-        <div class="thumbnail"></div>
-        <div class="card-content">
-          <div class="template-number">Template 04</div>
-          <h3>Blue Surge</h3>
-          <button class="copy-btn" onclick="openPrompt(3)">
-            View Prompt
-          </button>
-        </div>
-      </div>
-
-      <!-- TEMPLATE 05 -->
-      <div class="card">
-        <div class="thumbnail"></div>
-        <div class="card-content">
-          <div class="template-number">Template 05</div>
-          <h3>Shockwave</h3>
-          <button class="copy-btn" onclick="openPrompt(4)">
-            View Prompt
-          </button>
-        </div>
-      </div>
-
-      <!-- TEMPLATE 06 -->
-      <div class="card">
-        <div class="thumbnail"></div>
-        <div class="card-content">
-          <div class="template-number">Template 06</div>
-          <h3>Money Rush</h3>
-          <button class="copy-btn" onclick="openPrompt(5)">
-            View Prompt
-          </button>
-        </div>
-      </div>
-
-      <!-- TEMPLATE 07 -->
-      <div class="card">
-        <div class="thumbnail"></div>
-        <div class="card-content">
-          <div class="template-number">Template 07</div>
-          <h3>Green Fortune</h3>
-          <button class="copy-btn" onclick="openPrompt(6)">
-            View Prompt
-          </button>
-        </div>
-      </div>
-
-      <!-- TEMPLATE 08 -->
-      <div class="card">
-        <div class="thumbnail"></div>
-        <div class="card-content">
-          <div class="template-number">Template 08</div>
-          <h3>Neon Vision</h3>
-          <button class="copy-btn" onclick="openPrompt(7)">
-            View Prompt
-          </button>
-        </div>
-      </div>
-
-      <!-- TEMPLATE 09 -->
-      <div class="card">
-        <div class="thumbnail"></div>
-        <div class="card-content">
-          <div class="template-number">Template 09</div>
-          <h3>Red Impact</h3>
-          <button class="copy-btn" onclick="openPrompt(8)">
-            View Prompt
-          </button>
-        </div>
-      </div>
-
-      <!-- TEMPLATE 10 -->
-      <div class="card">
-        <div class="thumbnail"></div>
-        <div class="card-content">
-          <div class="template-number">Template 10</div>
-          <h3>Pink Pro</h3>
-          <button class="copy-btn" onclick="openPrompt(9)">
-            View Prompt
-          </button>
-        </div>
-      </div>
-
-      <!-- TEMPLATE 11 -->
-      <div class="card">
-        <div class="thumbnail"></div>
-        <div class="card-content">
-          <div class="template-number">Template 11</div>
-          <h3>Creative Glow</h3>
-          <button class="copy-btn" onclick="openPrompt(10)">
-            View Prompt
-          </button>
-        </div>
-      </div>
-
-      <!-- TEMPLATE 12 -->
-      <div class="card">
-        <div class="thumbnail"></div>
-        <div class="card-content">
-          <div class="template-number">Template 12</div>
-          <h3>Business Builder</h3>
-          <button class="copy-btn" onclick="openPrompt(11)">
-            View Prompt
-          </button>
-        </div>
-      </div>
-
-      <!-- TEMPLATE 13 -->
-      <div class="card">
-        <div class="thumbnail"></div>
-        <div class="card-content">
-          <div class="template-number">Template 13</div>
-          <h3>Growth Pulse</h3>
-          <button class="copy-btn" onclick="openPrompt(12)">
-            View Prompt
-          </button>
-        </div>
-      </div>
-
-      <!-- TEMPLATE 14 -->
-      <div class="card">
-        <div class="thumbnail"></div>
-        <div class="card-content">
-          <div class="template-number">Template 14</div>
-          <h3>Pink Elite</h3>
-          <button class="copy-btn" onclick="openPrompt(13)">
-            View Prompt
-          </button>
-        </div>
-      </div>
-
-      <!-- TEMPLATE 15 -->
-      <div class="card">
-        <div class="thumbnail"></div>
-        <div class="card-content">
-          <div class="template-number">Template 15</div>
-          <h3>Purple Luxe</h3>
-          <button class="copy-btn" onclick="openPrompt(14)">
-            View Prompt
-          </button>
-        </div>
-      </div>
-
-    </div>
-  </main>
-
-  <!-- PROMPT MODAL -->
-  <div class="modal" id="promptModal">
-
-    <div class="modal-box">
-
-      <div class="modal-top">
-        <h2 id="modalTitle">Template</h2>
-
-        <button class="close" onclick="closePrompt()">
-          ×
-        </button>
-      </div>
-
-      <div class="prompt-box" id="promptText"></div>
-
-      <button class="modal-copy" onclick="copyPrompt()">
-        Copy Prompt
-      </button>
-
-    </div>
-
-  </div>
-
-  <!-- FOOTER -->
-  <footer>
-    <div class="container">
-      © 2026 AkhilRise · AI Creator Resources
-    </div>
-  </footer>
-
-
-  <script>
-
-    const prompts = [
-
-      `TEMPLATE 01 — Royal Glow
-
-Your uploaded photo is the primary identity reference.
-
-Create a premium 9:16 vertical Instagram Reel thumbnail using the person from the uploaded photo. Preserve the person's recognizable facial features, hairstyle, skin tone and overall identity.
-
-Recreate the Royal Glow template composition closely: rich dark purple and magenta background, subtle architectural/grid details, strong purple glow behind the person, premium lighting and polished social-media thumbnail aesthetic.
-
-Keep the person centered and shown from approximately chest/shoulders up with a confident, friendly smile.
-
-Use this typography structure:
-[SECONDARY TEXT] — elegant white script.
-[MAIN TEXT] — very large yellow-orange gradient headline.
-[BOTTOM TEXT] — white text inside a rounded purple banner.
-
-Include the small dark circular golden crown badge in the upper-left and the glowing purple social icon in the lower-right.
-
-Preserve the composition, lighting, typography hierarchy, colors, effects and graphic placement as closely as possible. Only intentionally change the person using the uploaded photo and the text inside the brackets.
-
-High-resolution, realistic, polished, professional Instagram thumbnail.`,
-
-      `TEMPLATE 02 — Neon Luxe
-
-Use the uploaded photo as the primary identity reference.
-
-Create a premium 9:16 vertical Instagram Reel thumbnail closely recreating the Neon Luxe template.
-
-Preserve the person's recognizable facial features, hairstyle, skin tone and identity. Show the person approximately waist/chest up with the body angled slightly and one hand near the chin or collar.
-
-Use a dark black, deep-purple and neon-magenta futuristic indoor background with cinematic lighting and vibrant neon glow.
-
-Typography:
-[SMALL TEXT] — yellow/lime.
-[MAIN TEXT] — huge purple-magenta headline.
-[SECONDARY TEXT] — elegant white script.
-[BOTTOM TEXT] — neon yellow/lime.
-
-Include the crown badge, white line-art rocket/growth graphic and the fixed vertical "Image Not Included" pill.
-
-Keep the original composition, person placement, lighting, colors, typography hierarchy and graphic elements as closely as possible.
-
-Only change the person using the uploaded photo and the bracketed text.
-
-High-resolution, realistic, premium social-media design.`,
-
-      `TEMPLATE 03 — Electric Pop
-
-Use the uploaded photo as the primary identity reference.
-
-Create a premium 9:16 vertical Instagram Reel thumbnail closely recreating the Electric Pop template.
-
-Preserve the person's recognizable face, hairstyle, skin tone and identity. Show the person in the lower half, approximately chest up, with a surprised or excited expression.
-
-Background: deep navy, dark blue, violet and electric purple with bright purple-blue glow, particles, stars and curved blue-white light trails.
-
-Typography:
-[MAIN TEXT] — large lavender-blue.
-[SECONDARY TEXT] — yellow-orange.
-[SMALL TEXT] — black text inside a bright yellow/orange angled banner.
-
-Include the flame graphic, crown badge and fixed "IMAGE NOT INCLUDED" label.
-
-Preserve the composition, lighting, typography, effects, colors and graphic placement closely.
-
-Only change the person and the bracketed text.
-
-High-resolution, realistic, polished Instagram thumbnail.`,
-
-      `TEMPLATE 04 — Blue Surge
-
-Use the uploaded photo as the primary identity reference.
-
-Create a premium 9:16 vertical Instagram Reel thumbnail closely recreating the Blue Surge template.
-
-Preserve facial identity, hairstyle, skin tone and recognizable features. Show the person in the lower half, chest up, making a pointing gesture with a confident smile.
-
-Use a dark deep-teal and blue background with blue glow and floating particles.
-
-Typography:
-[TOP TEXT] — yellow-orange.
-[MAIN TEXT] — white/silver.
-[SECONDARY TEXT] — yellow-orange.
-[BOTTOM TEXT] — electric blue/cyan.
-
-Include business/idea iconography, laptop/analytics graphics and a growth chart. Include the fixed "IMAGE NOT INCLUDED" label and crown.
-
-Preserve the original composition, lighting, typography hierarchy, colors and effects.
-
-Only change the person and bracketed text.
-
-High-resolution, realistic, premium thumbnail.`,
-
-      `TEMPLATE 05 — Shockwave
-
-Use the uploaded photo as the primary identity reference.
-
-Create a premium 9:16 vertical Instagram Reel thumbnail closely recreating the Shockwave template.
-
-Preserve facial features, hairstyle, skin tone and identity. Show the person waist/chest up with both hands near the temples and a shocked expression.
-
-Use a dark teal, cyan and deep-navy electric atmosphere with cyan glow, lightning, smoke/cloud texture and particles.
-
-Include the fixed "IMAGE NOT INCLUDED" label at the top-right and a red YouTube-style play graphic in the upper-left.
-
-Typography:
-[MAIN TEXT] — white/light cyan.
-[SECONDARY TEXT] — yellow-orange.
-[BOTTOM TEXT] — white.
-
-Include the crown badge, dotted curved lines and glowing cyan strip at the bottom.
-
-Preserve composition, lighting, colors, typography and effects closely.
-
-Only change the person and bracketed text.`,
-
-      `TEMPLATE 06 — Money Rush
-
-Use the uploaded photo as the primary identity reference.
-
-Create a premium 9:16 vertical Instagram Reel thumbnail closely recreating the Money Rush template.
-
-Preserve the person's recognizable facial features, hairstyle, skin tone and identity. Show the person waist up with an excited or surprised expression and one hand making an "OK" gesture.
-
-Use a dark green-to-yellow background with dollar bills and bright yellow-green glow.
-
-Typography:
-[TOP TEXT] — white.
-[MAIN TEXT] — yellow-orange.
-
-Include a tilted white card containing [CARD TEXT] in red.
-
-Add the crown badge, dark green rounded frame and fixed "IMAGE NOT INCLUDED" label at the bottom.
-
-Preserve composition, lighting, typography, effects and colors closely.
-
-Only change the person and bracketed text.
-
-High-resolution, realistic premium Instagram thumbnail.`,
-
-      `TEMPLATE 07 — Green Fortune
-
-Use the uploaded photo as the primary identity reference.
-
-Create a premium 9:16 vertical Instagram Reel thumbnail closely recreating the Green Fortune template.
-
-Preserve the person's recognizable facial features, hairstyle, skin tone and identity. Show the person chest up with a happy, excited smile.
-
-Use a deep forest-green, black and neon-green background with a bright green halo and floating dollar bills.
-
-Typography:
-[SECONDARY TEXT] — elegant white script.
-[MAIN TEXT] — large yellow-orange.
-[BOTTOM TEXT] — green/lime.
-
-Include the dollar-sign graphic, crown badge and fixed "IMAGE NOT INCLUDED" label.
-
-Preserve the composition, lighting, colors, typography and graphic placement closely.
-
-Only change the person and bracketed text.
-
-High-resolution, realistic, polished thumbnail.`,
-
-      `TEMPLATE 08 — Neon Vision
-
-Use the uploaded photo as the primary identity reference.
-
-Create a premium 9:16 vertical Instagram Reel thumbnail closely recreating the Neon Vision template.
-
-Preserve facial features, hairstyle, skin tone and identity. Show the person chest up with a friendly, confident smile.
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Thumbnail Library | AkhilRise</title>
+<meta name="description" content="Premium AI thumbnail templates and ready-to-use prompts by AkhilRise.">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}body{font-family:Arial,Helvetica,sans-serif;background:#0b0b0f;color:#fff;min-height:100vh}.container{width:min(1180px,92%);margin:auto}header{padding:24px 0;border-bottom:1px solid rgba(255,255,255,.08)}.header-inner{display:flex;align-items:center;justify-content:space-between;gap:20px}.logo{color:#fff;text-decoration:none;font-size:22px;font-weight:800;letter-spacing:-.5px}.back-link{color:#aaa;text-decoration:none;font-size:14px}.back-link:hover{color:#fff}.hero{text-align:center;padding:75px 0 55px}.badge{display:inline-block;padding:7px 14px;border:1px solid rgba(255,255,255,.12);border-radius:50px;color:#b7b7c5;font-size:13px;margin-bottom:20px;background:rgba(255,255,255,.03)}.hero h1{font-size:clamp(38px,6vw,68px);line-height:1;letter-spacing:-2.5px;margin-bottom:20px}.gradient-text{background:linear-gradient(90deg,#fff,#9b8cff,#ff65c7);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}.hero p{max-width:650px;margin:auto;color:#9c9ca8;font-size:17px;line-height:1.7}.library-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:25px;gap:20px}.library-header h2{font-size:25px}.count{color:#888894;font-size:14px}.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;padding-bottom:80px}.card{background:#121218;border:1px solid rgba(255,255,255,.08);border-radius:18px;overflow:hidden;transition:transform .25s ease,border-color .25s ease}.card:hover{transform:translateY(-5px);border-color:rgba(255,255,255,.18)}.thumbnail{width:100%;aspect-ratio:9/16;background:#171720;overflow:hidden}.thumbnail img{width:100%;height:100%;display:block;object-fit:contain}.card-content{padding:18px}.template-number{color:#777783;font-size:12px;margin-bottom:7px;text-transform:uppercase;letter-spacing:1px}.card h3{font-size:19px;margin-bottom:15px}.copy-btn{width:100%;padding:12px 15px;border:none;border-radius:10px;background:#fff;color:#08080b;font-size:14px;font-weight:700;cursor:pointer}.copy-btn:hover{background:#ddd}.modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.78);backdrop-filter:blur(8px);z-index:1000;padding:20px;align-items:center;justify-content:center}.modal.active{display:flex}.modal-box{width:min(700px,100%);max-height:85vh;background:#15151c;border:1px solid rgba(255,255,255,.12);border-radius:20px;padding:25px;overflow-y:auto}.modal-top{display:flex;justify-content:space-between;align-items:center;gap:15px;margin-bottom:18px}.modal-top h2{font-size:22px}.close{width:35px;height:35px;border:none;border-radius:50%;background:rgba(255,255,255,.08);color:#fff;cursor:pointer;font-size:18px}.prompt-box{background:#0b0b0f;border:1px solid rgba(255,255,255,.08);border-radius:12px;padding:18px;color:#c9c9d1;font-size:14px;line-height:1.7;white-space:pre-wrap;margin-bottom:18px}.modal-copy{width:100%;padding:13px;border:none;border-radius:10px;background:linear-gradient(90deg,#fff,#d9d9ff);color:#09090c;font-weight:800;cursor:pointer}footer{border-top:1px solid rgba(255,255,255,.08);padding:25px 0;text-align:center;color:#70707b;font-size:13px}@media(max-width:850px){.grid{grid-template-columns:repeat(2,1fr)}}@media(max-width:560px){.hero{padding:55px 0 40px}.grid{grid-template-columns:1fr}.hero p{font-size:15px}.library-header{align-items:flex-start;flex-direction:column}}
+</style></head><body>
+<header><div class="container header-inner"><a href="index.html" class="logo">AkhilRise</a><a href="index.html" class="back-link">← Back to Resources</a></div></header>
+<section class="hero"><div class="container"><div class="badge">AI CREATOR RESOURCE</div><h1>AI Thumbnail <span class="gradient-text">Library</span></h1><p>Premium AI thumbnail templates with ready-to-use prompts for creating scroll-stopping Instagram Reel thumbnails.</p></div></section>
+<main class="container"><div class="library-header"><h2>Premium Templates</h2><span class="count">23 Templates</span></div><div class="grid" id="templateGrid"></div></main>
+<div class="modal" id="promptModal"><div class="modal-box"><div class="modal-top"><h2 id="modalTitle">Template</h2><button class="close" onclick="closePrompt()">×</button></div><div class="prompt-box" id="promptText"></div><button class="modal-copy" onclick="copyPrompt()">Copy Prompt</button></div></div>
+<footer><div class="container">© 2026 AkhilRise · AI Creator Resources</div></footer>
+<script>
+const templates = [
+{name:"Growth Plan",prompt:`Copy the complete prompt below. Replace only the text inside [SQUARE BRACKETS]. Use the uploaded thumbnail image as the EXACT visual reference and recreate the same thumbnail design. Do not redesign, simplify, or change the composition.
 
-Use a dark futuristic navy-blue background with blue light streaks, stars/speckles and an electric-blue halo.
+Use the uploaded person image as the identity reference and replace the original person while keeping the same approximate pose, framing, scale, expression, lighting, clothing framing and position. Preserve the user's real facial identity and recognizable features.
 
-Typography:
-[MAIN TEXT] — white/silver.
-[SECONDARY TEXT] — yellow-orange.
-[SMALL TEXT] — cyan/blue.
+Replace the editable text:
+[YOUR SCRIPT TEXT]
+[YOUR MAIN HEADLINE]
+[YOUR BOTTOM TEXT]
 
-Include a rocket icon, golden trophy/achievement icon and thin dark rounded border.
+Recreate the same premium purple growth-plan aesthetic, city/technology background, glowing lighting, yellow-orange main headline, white/purple PLAN-style panel, script lettering, shadows, outlines, spacing and visual hierarchy.
 
-Only include the three specified text lines. Do not add random text.
+Keep all important decorative elements in the same approximate locations. The result must look like the same original thumbnail template customized for another creator, not a new design.
 
-Preserve composition, lighting, typography hierarchy, colors and effects closely.
+Create a sharp, polished, professional vertical 9:16 social-media thumbnail.`},
+{name:"Behind Growth",prompt:`Copy the complete prompt below. Replace only the text inside [SQUARE BRACKETS]. Use the uploaded thumbnail image as the EXACT visual reference and recreate the same thumbnail design. Do not redesign, simplify, or change the composition.
 
-Only change the person and bracketed text.
+Replace the original person with the user's uploaded image while preserving their real facial identity, recognizable features, natural proportions, approximate pose, framing, scale, expression and lighting.
 
-High-resolution, realistic premium Instagram thumbnail.`,
+Replace:
+[YOUR TOP TEXT]
+[YOUR SCRIPT TEXT]
+[YOUR MAIN HEADLINE]
+[YOUR BOTTOM TEXT]
 
-      `TEMPLATE 09 — Red Impact
+Preserve the dark black-to-purple background, neon purple lighting, urban/interior atmosphere, rocket/growth graphic, lime-green clothing feel, bold typography, glow, shadows and premium creator aesthetic.
 
-Use the uploaded photo as the primary identity reference.
+Keep every important element in the same approximate position. The final result should look like the same thumbnail template with a different creator and wording.
 
-Create a premium 9:16 vertical Instagram Reel thumbnail closely recreating the Red Impact template.
+Vertical 9:16, sharp, realistic, polished, high contrast and professional.`},
+{name:"Scroll Stop",prompt:`Copy the complete prompt below. Replace only the text inside [SQUARE BRACKETS]. Use the uploaded thumbnail image as the EXACT visual reference and recreate the same thumbnail design. Do not redesign, simplify, or change the composition.
 
-Preserve the person's recognizable facial features, hairstyle, skin tone and identity. Show the person chest up with a happy smile.
+Replace the person with the user's uploaded image while preserving real facial identity, recognizable features, natural proportions, pose, scale, framing, expression and dramatic lighting.
 
-Use a deep red and black YouTube-style background with horizontal light streaks, red glow and particles.
+Replace:
+[YOUR TOP TEXT]
+[YOUR MAIN HEADLINE]
+[YOUR BOTTOM TEXT]
 
-Typography:
-[TOP TEXT] — red with black outline.
-[MAIN TEXT] — yellow-orange.
-[BOTTOM TEXT] — white.
+Preserve the cosmic purple/blue background, yellow/orange headline, blue-white secondary text, glowing rings, flame/graphic accent, dramatic rim lighting, particles, shadows and premium high-energy composition.
 
-Include the flame graphic.
+Keep the same visual hierarchy, typography placement and decorative elements. Do not add extra words or redesign the template.
 
-Do not include a crown, "IMAGE NOT INCLUDED" label or any other unwanted text.
+Create a crisp, realistic, professional 9:16 thumbnail.`},
+{name:"Aesthetic Design",prompt:`Copy the complete prompt below. Replace only the text inside [SQUARE BRACKETS]. Use the uploaded thumbnail image as the EXACT visual reference and recreate the same thumbnail design. Do not redesign, simplify, or change the composition.
 
-Preserve composition, lighting, typography, effects and colors closely.
+Replace the person with the user's uploaded image. Preserve the user's real facial identity and recognizable features. Match the same approximate pose, framing, scale, expression, clothing framing and lighting.
 
-Only change the person and bracketed text.
+Replace:
+[YOUR TOP TEXT]
+[YOUR MAIN HEADLINE]
+[YOUR BOTTOM TEXT]
 
-High-resolution, realistic, polished thumbnail.`,
+Preserve the deep blue digital/technology background, graphs and business elements, glowing effects, icons, upward-growth visuals, smart blazer-and-shirt feel, typography hierarchy, shadows, outlines and overall premium aesthetic.
 
-      `TEMPLATE 10 — Pink Pro
+Keep all important elements in their original visual locations. The result should look like the same template customized for another creator.
 
-Use the uploaded photo as the primary identity reference.
+Vertical 9:16, high resolution, sharp, realistic and polished.`},
+{name:"6X Views",prompt:`Copy the complete prompt below. Replace only the text inside [SQUARE BRACKETS]. Use the uploaded thumbnail image as the EXACT visual reference and recreate the same thumbnail design. Do not redesign, simplify, or change the composition.
 
-Create a premium 9:16 vertical Instagram Reel thumbnail closely recreating the Pink Pro template.
+Replace the person with the user's uploaded image while preserving real identity, recognizable facial features, natural proportions, pose and expression.
 
-Preserve facial features, hairstyle, skin tone and identity. Show the person chest up with an energetic surprised or excited expression.
+Replace:
+[YOUR TOP TEXT]
+[YOUR MAIN TEXT]
+[YOUR BIG NUMBER/CLAIM]
+[YOUR BOTTOM TEXT]
 
-Use a dark magenta/pink background with burgundy-dark pink edges and a bright pink radial glow.
+Preserve the dark teal/green storm-like background, lightning, digital/math texture, glowing cyan effects and dramatic lighting. Keep the surprised both-hands-on-head pose style and casual layered clothing framing from the reference.
 
-Typography:
-[TOP TEXT] — white.
-[MAIN TEXT] — yellow-orange.
-[BOTTOM TEXT] — pink/magenta.
+Keep the same typography hierarchy, placement, colors, glow, particles and composition. Do not invent claims or numbers.
 
-Include the flame graphic.
+Create a professional, sharp, high-contrast 9:16 thumbnail.`},
+{name:"Money Thumbnail",prompt:`Copy the complete prompt below. Replace only the text inside [SQUARE BRACKETS]. Use the uploaded thumbnail image as the EXACT visual reference and recreate the same thumbnail design. Do not redesign, simplify, or change the composition.
 
-Do not include a crown, premium icons, "IMAGE NOT INCLUDED" label or unwanted text.
+Replace the person with the user's uploaded image and preserve their real facial identity, recognizable features, natural proportions, pose, scale and expression.
 
-Preserve composition, lighting, typography hierarchy, colors and effects closely.
+Replace:
+[YOUR TOP TEXT]
+[YOUR MAIN HEADLINE]
+[YOUR CLAIM, IF NEEDED]
 
-Only change the person and bracketed text.
+Preserve the green/yellow money-business theme, floating U.S.-dollar-bill style graphics, bright yellow-green lighting, glow, shadows and excited/confident subject treatment.
 
-High-resolution, realistic premium Instagram thumbnail.`,
+Keep the same typography hierarchy, text placement, graphic composition and premium business aesthetic. Do not invent financial claims.
 
-      `TEMPLATE 11 — Creative Glow
+Vertical 9:16, high resolution, realistic, crisp and polished.`},
+{name:"Green Growth",prompt:`Copy the complete prompt below. Replace only the text inside [SQUARE BRACKETS]. Use the uploaded thumbnail image as the EXACT visual reference and recreate the same thumbnail design. Do not redesign, simplify, or change the composition.
 
-Use the uploaded photo as the primary identity reference.
-
-Create a premium 9:16 vertical Instagram Reel thumbnail closely recreating the Creative Glow template.
-
-Preserve the person's facial features, hairstyle, skin tone and identity. Show the person in the lower half with a confident smile.
-
-Use a dark futuristic purple and magenta background with dotted halftone texture, digital patterns and pink glow.
-
-Typography:
-[TOP TEXT] — white-to-pink.
-[MAIN TEXT] — yellow-orange.
-[BOTTOM TEXT] — white.
-
-Include a white curved brush-stroke/swoosh and flame graphic in the upper-right.
-
-Do not include a crown or "IMAGE NOT INCLUDED" label.
-
-Preserve composition, lighting, typography, colors, effects and graphic placement closely.
-
-Only change the person and bracketed text.`,
-
-      `TEMPLATE 12 — Business Builder
-
-Use the uploaded photo as the primary identity reference.
-
-Create a premium 9:16 vertical Instagram Reel thumbnail closely recreating the Business Builder template.
-
-Preserve recognizable facial features, hairstyle, skin tone and identity. Show the person chest/waist up with an excited, surprised and enthusiastic expression.
-
-Use a dark brown/caramel business background with office silhouettes, graphs and warm golden glow.
-
-Typography:
-[TOP TEXT] — white.
-[MAIN TEXT] — yellow-orange.
-[SMALL TEXT] — white.
-[BOTTOM TEXT] — yellow/orange inside a dark rounded box.
-
-Include business icons such as a presentation/document graphic and financial growth/chart graphics with coins.
-
-Do not include a crown or "IMAGE NOT INCLUDED" label.
-
-Preserve composition, lighting, typography, colors and effects closely.
-
-Only change the person and bracketed text.
-
-High-resolution, realistic professional thumbnail.`,
-
-      `TEMPLATE 13 — Growth Pulse
-
-Use the uploaded photo as the primary identity reference.
-
-Create a premium 9:16 vertical Instagram Reel thumbnail closely recreating the Growth Pulse template.
-
-Preserve the person's recognizable facial features, hairstyle, skin tone and identity. Show the person in the lower half with a confident slight smile.
-
-Use a dark futuristic purple business background with violet/dark-purple technology and business textures.
-
-Typography:
-[TOP TEXT] — white with pink/magenta gradient.
-[MAIN TEXT] — yellow-orange.
-[BOTTOM TEXT] — white-to-pink/magenta.
-
-Include money/cash icon, target icon, upward arrow/graph and gear graphics.
-
-Do not include a crown or "IMAGE NOT INCLUDED" label.
-
-Preserve composition, lighting, typography hierarchy, colors and graphic placement closely.
-
-Only change the person and bracketed text.`,
-
-      `TEMPLATE 14 — Pink Elite
-
-Use the uploaded photo as the primary identity reference.
-
-Create a premium 9:16 vertical Instagram Reel thumbnail closely recreating the Pink Elite template.
-
-Preserve facial features, hairstyle, skin tone and identity. Show the person waist/chest up with an excited open-mouth smile.
-
-Use a dark purple/magenta futuristic background with pink-purple glow, lightning-like energy lines, particles and abstract shapes.
-
-Typography across the lower half:
-[TOP TEXT] — pink/magenta.
-[MAIN TEXT] — yellow-orange.
-[BOTTOM TEXT] — white.
-
-Include a heart/like icon near the shoulder and a purple graphic in the lower-right.
-
-Do not include a crown or "IMAGE NOT INCLUDED" label.
-
-Preserve composition, lighting, typography, effects and colors closely.
-
-Only change the person and bracketed text.`,
-
-      `TEMPLATE 15 — Purple Luxe
-
-Use the uploaded photo as the primary identity reference.
-
-Create a premium 9:16 vertical Instagram Reel thumbnail closely recreating the Purple Luxe template.
-
-Preserve the person's recognizable facial features, hairstyle, skin tone and identity. Show the person centered in the lower half with a friendly, confident smile.
-
-Use a dark purple futuristic background with digital textures, particles, purple light patterns and a glowing circular halo.
-
-Typography:
-[TOP TEXT] — lime-green/yellow-green.
-[MAIN TEXT] — yellow-orange.
-[BOTTOM TEXT] — white.
-
-Include the playful emoji graphics on the left and right.
-
-Do not include a crown or "IMAGE NOT INCLUDED" label.
-
-Preserve composition, lighting, typography, colors, effects and graphic placement closely.
-
-Only change the person and bracketed text.
-
-High-resolution, realistic, polished Instagram Reel thumbnail.`
-
-    ];
-
-
-    let currentPrompt = "";
-
-    function openPrompt(index) {
-      const title = document.querySelectorAll(".card h3")[index].innerText;
-
-      currentPrompt = prompts[index];
-
-      document.getElementById("modalTitle").innerText = title;
-      document.getElementById("promptText").innerText = currentPrompt;
-
-      document.getElementById("promptModal").classList.add("active");
-    }
-
-    function closePrompt() {
-      document.getElementById("promptModal").classList.remove("active");
-    }
-
-    async function copyPrompt() {
-
-      try {
-
-        await navigator.clipboard.writeText(currentPrompt);
-
-        const button = document.querySelector(".modal-copy");
-
-        button.innerText = "✓ Prompt Copied!";
-
-        setTimeout(() => {
-          button.innerText = "Copy Prompt";
-        }, 1800);
-
-      } catch (error) {
-
-        alert("Please select and copy the prompt manually.");
-
-      }
-
-    }
-
-    document.getElementById("promptModal").addEventListener("click", function(event) {
-
-      if (event.target === this) {
-        closePrompt();
-      }
-
-    });
-
-  </script>
-
-</body>
-</html>
+Replace the person with the user's uploaded image while preserving real facial identity, recognizable features, pose, scale, expression and natural proportions.
+
+Replace:
+[YOUR SCRIPT TEXT]
+[YOUR MAIN HEADLINE]
+[YOUR SECOND HEADLINE]
+
+Preserve the bright green digital/business background, green halo, floating money, dollar symbol, upward chart/grid, particles and premium success/YouTube aesthetic.
+
+Keep the same typography, glow, lighting, decorative elements and visual hierarchy. Do not add extra text or change the composition.
+
+Vertical 9:16, realistic, sharp and professional.`},
+{name:"View Boost",prompt:`Copy the complete prompt below. Replace only the text inside [SQUARE BRACKETS]. Use the uploaded thumbnail image as the EXACT visual reference and recreate the same thumbnail design. Do not redesign, simplify, or change the composition.
+
+Replace the person with the user's uploaded image and preserve their real facial identity, recognizable features, natural proportions, pose, scale and expression.
+
+Replace:
+[YOUR TOP TEXT]
+[YOUR MAIN HEADLINE]
+[YOUR BOTTOM TEXT]
+
+Preserve the dark blue futuristic background, blue beams, circular/tech effects, white/yellow-orange headline, cyan bottom text, rocket, trophy and premium growth aesthetic.
+
+Keep the exact visual hierarchy, typography placement, lighting, glow, shadows and decorative elements as closely as possible.
+
+Create a clean, sharp, high-contrast 9:16 thumbnail.`},
+{name:"Red Impact",prompt:`Copy the complete prompt below. Replace only the text inside [SQUARE BRACKETS]. Use the uploaded thumbnail image as the EXACT visual reference and recreate the same thumbnail design. Do not redesign, simplify, or change the composition.
+
+Replace the person with the user's uploaded image while preserving their real facial identity, recognizable features, natural proportions, pose and expression.
+
+Replace:
+[YOUR TOP TEXT]
+[YOUR MAIN HEADLINE]
+[YOUR BOTTOM TEXT]
+
+Preserve the red/black energetic background, horizontal light streaks, particles, outer border, red glow and flame icon.
+
+Do not add extra words, icons or decorative elements. Keep the same typography hierarchy, placement, outlines, shadows and visual balance.
+
+Vertical 9:16, sharp, realistic, polished and professional.`},
+{name:"Pro Thumbnail",prompt:`Copy the complete prompt below. Replace only the text inside [SQUARE BRACKETS]. Use the uploaded thumbnail image as the EXACT visual reference and recreate the same thumbnail design. Do not redesign, simplify, or change the composition.
+
+Replace the person with the user's uploaded image while preserving real facial identity, recognizable features, natural proportions, pose, scale and expression.
+
+Replace:
+[YOUR TOP TEXT]
+[YOUR MAIN HEADLINE]
+[YOUR BOTTOM TEXT]
+
+Preserve the red/magenta professional background, textured graphic effects, central glow, flame accent, dark red edges, typography hierarchy, shadows, outlines and premium creator aesthetic.
+
+Keep all important visual elements in their original locations. Do not add random text or redesign the template.
+
+Create a high-resolution, sharp, realistic vertical 9:16 thumbnail.`},
+{name:"Neon Growth",prompt:`Use the uploaded thumbnail as the exact visual reference/template. Recreate the same vertical 9:16 YouTube/Instagram thumbnail composition, layout, typography hierarchy, lighting, background treatment, glow, halftone/dotted patterns, particles, shadows, color energy, and overall premium high-contrast look. Do NOT redesign the template. Replace ONLY the person with the user's uploaded image. Preserve the user's real facial identity and recognizable features. Adapt the user's face/body naturally to the same centered head-and-shoulders position, approximate scale, pose, expression, clothing framing, rim lighting, and cutout treatment shown in the reference. Replace the text exactly as follows: MAIN TEXT: [MAIN TEXT] SECONDARY TEXT: [SUB TEXT] SMALL TEXT: [SMALL TEXT] Keep the same text placement, font style, bold condensed appearance, outlines, gradients, shadows, spacing, capitalization, and visual hierarchy as the reference. Keep the same neon magenta/pink/purple background style, dotted light patterns, glow behind the person, particles, and decorative elements. Keep all important elements in the same positions. The final image must look like the SAME thumbnail template made for a different creator, not a new design. Clean professional YouTube thumbnail, sharp subject, strong contrast, polished digital compositing, 9:16 portrait.`},
+{name:"Business Pro",prompt:`Use the uploaded thumbnail as the exact visual reference/template and recreate it as closely as possible. Keep the same 9:16 vertical composition, orange/brown business background, glowing financial atmosphere, grid/chart elements, floating money/details, typography proportions, black outlines, yellow-to-orange headline treatment, white supporting text, shadows, and premium YouTube-thumbnail finish. Replace ONLY the person with the user's uploaded portrait. Preserve the user's real face and identity. Make the person naturally match the reference's position, scale, expression, clothing framing, lighting, cutout edges, and warm glow. Change only the editable text: MAIN HEADLINE: [MAIN TEXT] MIDDLE TEXT: [SECONDARY TEXT] BOTTOM BOX TEXT: [BOTTOM TEXT] Keep the exact same text hierarchy and placement as the reference. Use bold heavy display typography with strong black outline/shadow and the same yellow/orange/white visual treatment. Preserve the financial/business icons and background graphics unless they conflict with the new text. Do not create a different design. It must feel like the original thumbnail template with a new person and new wording. High-quality professional YouTube thumbnail, sharp face, clean edges, strong contrast, cinematic glow, 9:16. Tip: Keep the wording inside [BRACKETS] short enough to fit the original text areas. If your image model supports reference-image strength, use the original thumbnail as a strong style/composition reference.`},
+{name:"Growth Tips",prompt:`Recreate the uploaded thumbnail as the exact same editable visual template. Preserve the 9:16 portrait format, purple technology-style background, subtle digital grid, glowing gradients, large upward growth arrow/chart, floating business icons, typography layout, colors, outlines, shadows, and overall premium creator/business aesthetic. Replace ONLY the person with the user's uploaded portrait. Preserve the user's real facial identity and features. Match the reference's centered position, approximate size, pose, facial expression, clothing framing, lighting, and cutout quality. Replace the text with: TOP TEXT: [TOP TEXT] MAIN TEXT: [MAIN TEXT] BOTTOM TEXT: [BOTTOM TEXT] Keep each text block in the same position and relative size as the reference. Preserve the bold display font, black outline, gradient treatment, spacing, and hierarchy. Keep the growth arrow/chart and decorative icons in their original visual locations. The result should look like the exact same thumbnail template customized for another creator—not a new thumbnail concept. Professional, highly polished, sharp, high contrast, attention-grabbing, 9:16. Tip: Keep the wording inside [BRACKETS] short enough to fit the original text areas. If your image model supports reference-image strength, use the original thumbnail as a strong style/composition reference.`},
+{name:"Reel Impact",prompt:`Use the uploaded thumbnail as the exact visual reference and recreate the same design. Preserve the vertical 9:16 composition, dramatic purple background, lightning/electric effects, purple glow, overhead light bars, floating social-media icon, typography layout, bold outlines, gradients, shadows, and energetic premium Reel/YouTube cover aesthetic. Replace ONLY the person with the user's uploaded portrait. Preserve their real facial identity and recognizable features. Match the reference's centered body position, scale, expression, clothing framing, lighting, glow, and cutout edges. Replace the editable text: TOP TEXT: [TOP TEXT] MAIN TEXT: [MAIN TEXT] BOTTOM TEXT: [BOTTOM TEXT] Keep the exact same text locations, proportions, font weight, perspective/angle where present, black outlines, pink/white/yellow-orange gradient treatment, and spacing. Keep the lightning, glow, social icon, and other decorative elements positioned like the reference. Do not redesign or reinterpret the thumbnail. It must look like the same original template with only the creator's image and wording changed. Ultra-clean professional thumbnail, crisp typography, sharp portrait, dramatic lighting, high contrast, 9:16. Tip: Keep the wording inside [BRACKETS] short enough to fit the original text areas. If your image model supports reference-image strength, use the original thumbnail as a strong style/composition reference.`},
+{name:"Creator Boost",prompt:`Use the uploaded thumbnail as the exact visual reference/template. Recreate the same 9:16 vertical composition, cosmic purple background, glowing circular/ring effect behind the person, light streaks, particles, decorative emojis/icons, typography hierarchy, outlines, shadows, and premium high-energy creator aesthetic. Replace ONLY the person with the user's uploaded portrait. Preserve the user's real facial identity and facial features. Match the reference's centered position, approximate size, pose, expression, clothing framing, lighting, glow, and clean cutout. Change the text only: TOP TEXT: [TOP TEXT] MAIN TEXT: [MAIN TEXT] BOTTOM TEXT: [BOTTOM TEXT] Preserve the exact text placement, scale, bold display typography, black/gold outline treatment, green/yellow/orange/white color hierarchy, spacing, and visual emphasis from the reference. Keep the decorative elements and background composition in the same locations. The final image should look like the same thumbnail template customized for a different creator, not a newly designed thumbnail. Professional, sharp, vibrant, high contrast, polished digital artwork, 9:16. Tip: Keep the wording inside [BRACKETS] short enough to fit the original text areas. If your image model supports reference-image strength, use the original thumbnail as a strong style/composition reference.`},
+{name:"AI Shock",prompt:`Use the uploaded reference thumbnail as the visual blueprint.
+Editable fields are the words inside [SQUARE BRACKETS]. Replace those values before sending the prompt.
+Create a vertical 9:16 YouTube/Instagram thumbnail using the uploaded person photo as the ONLY identity reference for the person.
+Recreate the reference thumbnail's composition, visual hierarchy, camera framing, pose direction, lighting, color palette, background treatment, graphic elements, text placement, typography weight, shadows, outlines, stickers, arrows, icons, and overall premium high-contrast editing style as closely as possible.
+IMPORTANT: Do not redesign the template. Keep the same structure and visual balance. Replace ONLY the person, the editable text, and the editable numeric/stat elements with the values provided below. The uploaded person must remain recognizable, with natural facial proportions, realistic skin texture, and a clean professional thumbnail finish. Do not add extra objects, extra text, watermarks, logos, or random decorative elements. All text must be spelled correctly, highly legible, bold, and placed in the same approximate locations as the reference.
+Output: 1080x1920, vertical 9:16, sharp, polished, social-media thumbnail quality.
+Reference layout: the first uploaded thumbnail, featuring a surprised male creator in a red shirt, dark black/blue cinematic background, huge stacked headline at the top, floating AI/design elements around the subject, and three tilted image-card/stamp visuals near the lower chest. Editable fields: [MAIN_HEADLINE] = CRAZY AI TOOL [TOP_SMALL_TEXT] = [optional small label] [RIGHT_BADGE] = [short label] [LEFT_BADGE] = [short label] [CARD_1] = [image/style label] [CARD_2] = [image/style label] [CARD_3] = [image/style label] [BOTTOM_LINE_1] = [short supporting line] [BOTTOM_LINE_2] = [short supporting line] Keep the dramatic surprised expression/hand pose style, red clothing feel, blue-and-orange rim lighting, large white/orange headline, floating UI-style labels, and premium AI-creator aesthetic. The user's uploaded person replaces the original person while preserving the same approximate scale and position.`},
+{name:"Content Made Easy",prompt:`Use the uploaded reference thumbnail as the visual blueprint.
+Editable fields are the words inside [SQUARE BRACKETS]. Replace those values before sending the prompt.
+Create a vertical 9:16 YouTube/Instagram thumbnail using the uploaded person photo as the ONLY identity reference for the person.
+Recreate the reference thumbnail's composition, visual hierarchy, camera framing, pose direction, lighting, color palette, background treatment, graphic elements, text placement, typography weight, shadows, outlines, stickers, arrows, icons, and overall premium high-contrast editing style as closely as possible.
+IMPORTANT: Do not redesign the template. Keep the same structure and visual balance. Replace ONLY the person, the editable text, and the editable numeric/stat elements with the values provided below. The uploaded person must remain recognizable, with natural facial proportions, realistic skin texture, and a clean professional thumbnail finish. Do not add extra objects, extra text, watermarks, logos, or random decorative elements. All text must be spelled correctly, highly legible, bold, and placed in the same approximate locations as the reference.
+Output: 1080x1920, vertical 9:16, sharp, polished, social-media thumbnail quality.
+Reference layout: the second uploaded thumbnail, with a smiling creator wearing a cap and light sweatshirt, warm indoor creator-studio background, oversized purple/white headline at the top, floating camera/content icons, a white paper-style card on the right, and blue growth arrows. Editable fields: [MAIN_HEADLINE] = CONTENT CREATION [SUBHEAD] = MAKE EASY [LEFT_LABEL] = MAKE [RIGHT_LABEL] = POST [GROW_LABEL] = GROW [CARD_HEADLINE] = CONTENT EASY [CARD_SUBTEXT] = [short text] [QUOTE] = CREATE SMARTER NOT HARDER! [OPTIONAL_BADGE] = [short label] Keep the same friendly creator vibe, cap/sweatshirt styling, studio environment, oversized typography, blue/purple accents, camera icon, paper/card graphic, arrows, and exact visual hierarchy. Replace the person with the user's uploaded image while matching the original pose and framing as closely as possible.`},
+{name:"Design Upgrade",prompt:`Use the uploaded reference thumbnail as the visual blueprint.
+Editable fields are the words inside [SQUARE BRACKETS]. Replace those values before sending the prompt.
+Create a vertical 9:16 YouTube/Instagram thumbnail using the uploaded person photo as the ONLY identity reference for the person.
+Recreate the reference thumbnail's composition, visual hierarchy, camera framing, pose direction, lighting, color palette, background treatment, graphic elements, text placement, typography weight, shadows, outlines, stickers, arrows, icons, and overall premium high-contrast editing style as closely as possible.
+IMPORTANT: Do not redesign the template. Keep the same structure and visual balance. Replace ONLY the person, the editable text, and the editable numeric/stat elements with the values provided below. The uploaded person must remain recognizable, with natural facial proportions, realistic skin texture, and a clean professional thumbnail finish. Do not add extra objects, extra text, watermarks, logos, or random decorative elements. All text must be spelled correctly, highly legible, bold, and placed in the same approximate locations as the reference.
+Output: 1080x1920, vertical 9:16, sharp, polished, social-media thumbnail quality.
+Reference layout: the third uploaded thumbnail, showing a creator in a black shirt against a dark Photoshop/design-interface background, strong blue/pink lighting, huge blue-and-white headline at the top, Photoshop and AI-style icons, hand-drawn arrows, and handwritten annotations. Editable fields: [MAIN_HEADLINE] = BECOME [SECOND_HEADLINE] = BETTER [SMALL_HEADLINE] = GRAPHIC DESIGN [LEFT_NOTE] = BOOST IDEA [RIGHT_NOTE] = REFINE SKILL [TOOL_LABEL_1] = [tool name] [TOOL_LABEL_2] = [tool name] [BOTTOM_LINE_1] = GRAPHIC DESIGN MADE BETTER [BOTTOM_LINE_2] = STEP UP YOUR GAME Keep the dark professional design-editor environment, blue/pink rim lighting, black clothing feel, large condensed typography, software UI in the background, floating app icons, arrows and handwritten notes. Replace only the person and editable text.`},
+{name:"Editor Toolkit",prompt:`Use the uploaded reference thumbnail as the visual blueprint.
+Editable fields are the words inside [SQUARE BRACKETS]. Replace those values before sending the prompt.
+Create a vertical 9:16 YouTube/Instagram thumbnail using the uploaded person photo as the ONLY identity reference for the person.
+Recreate the reference thumbnail's composition, visual hierarchy, camera framing, pose direction, lighting, color palette, background treatment, graphic elements, text placement, typography weight, shadows, outlines, stickers, arrows, icons, and overall premium high-contrast editing style as closely as possible.
+IMPORTANT: Do not redesign the template. Keep the same structure and visual balance. Replace ONLY the person, the editable text, and the editable numeric/stat elements with the values provided below. The uploaded person must remain recognizable, with natural facial proportions, realistic skin texture, and a clean professional thumbnail finish. Do not add extra objects, extra text, watermarks, logos, or random decorative elements. All text must be spelled correctly, highly legible, bold, and placed in the same approximate locations as the reference.
+Output: 1080x1920, vertical 9:16, sharp, polished, social-media thumbnail quality.
+Reference layout: the fourth uploaded thumbnail, with a mysterious black-hoodie creator wearing a striped futuristic mask, purple textured background, a glowing microphone at lower left, giant white headline, orange label strip, and a hand-drawn red circle around a small day label. Editable fields: [TOP_LABEL] = ALL TOOL FOR [MAIN_HEADLINE] = EDITOR [DAY_LABEL] = DAY 1 [SMALL_BADGE] = [optional label] [EXTRA_TEXT] = [optional short phrase] Use the same bold purple cyber/creator aesthetic, textured background, strong blue-purple lighting, black hoodie styling, glowing microphone, giant condensed headline, orange strip, hand-drawn marks, and red circled label. Replace the person with the user's uploaded image, adapting the pose and crop while preserving the template's dramatic composition. If the user's face is visible, keep it realistic rather than turning it into a mask unless [MASK_STYLE]=YES.`},
+{name:"AI Money",prompt:`Use the uploaded reference thumbnail as the visual blueprint.
+Editable fields are the words inside [SQUARE BRACKETS]. Replace those values before sending the prompt.
+Create a vertical 9:16 YouTube/Instagram thumbnail using the uploaded person photo as the ONLY identity reference for the person.
+Recreate the reference thumbnail's composition, visual hierarchy, camera framing, pose direction, lighting, color palette, background treatment, graphic elements, text placement, typography weight, shadows, outlines, stickers, arrows, icons, and overall premium high-contrast editing style as closely as possible.
+IMPORTANT: Do not redesign the template. Keep the same structure and visual balance. Replace ONLY the person, the editable text, and the editable numeric/stat elements with the values provided below. The uploaded person must remain recognizable, with natural facial proportions, realistic skin texture, and a clean professional thumbnail finish. Do not add extra objects, extra text, watermarks, logos, or random decorative elements. All text must be spelled correctly, highly legible, bold, and placed in the same approximate locations as the reference.
+Output: 1080x1920, vertical 9:16, sharp, polished, social-media thumbnail quality.
+Reference layout: the fifth uploaded thumbnail, with a close-up creator wearing glasses, purple futuristic background, humanoid robots on both sides, floating money bills, and huge stacked white headline text in the lower half with a purple highlighted middle line. Editable fields: [AMOUNT] = $220,000 [TIME] = IN 2 HOURS [MAIN_TOPIC] = WITH AI [OPTIONAL_TOP_LABEL] = [short label] [OPTIONAL_BADGE] = [short label] Keep the same close-up framing, glasses/creator feel, purple futuristic environment, symmetrical robot elements, floating money, strong white condensed typography, purple highlight bar, and high-contrast business/AI thumbnail style. Replace the person with the user's uploaded image and preserve the same approximate head size and position. If the user changes the amount or claim, render exactly the supplied text without inventing additional numbers.`},
+{name:"Study AI",prompt:`Use the uploaded reference thumbnail as the visual blueprint.
+Editable fields are the words inside [SQUARE BRACKETS]. Replace those values before sending the prompt.
+Create a vertical 9:16 YouTube/Instagram thumbnail using the uploaded person photo as the ONLY identity reference for the person.
+Recreate the reference thumbnail's composition, visual hierarchy, camera framing, pose direction, lighting, color palette, background treatment, graphic elements, text placement, typography weight, shadows, outlines, stickers, arrows, icons, and overall premium high-contrast editing style as closely as possible.
+IMPORTANT: Do not redesign the template. Keep the same structure and visual balance. Replace ONLY the person, the editable text, and the editable numeric/stat elements with the values provided below. The uploaded person must remain recognizable, with natural facial proportions, realistic skin texture, and a clean professional thumbnail finish. Do not add extra objects, extra text, watermarks, logos, or random decorative elements. All text must be spelled correctly, highly legible, bold, and placed in the same approximate locations as the reference.
+Output: 1080x1920, vertical 9:16, sharp, polished, social-media thumbnail quality.
+Reference layout: the sixth uploaded thumbnail, featuring a smiling creator in a cap and glasses against a glowing purple tech background, huge white headline with a purple top label, circular side badges, and a dark premium lower area. Editable fields: [TOP_LABEL] = AI TOOL FOR [MAIN_HEADLINE] = STUDENTS [LEFT_BADGE] = 2026 [RIGHT_BADGE] = NEW TOOL [BOTTOM_LINE_1] = YOUR STUDY PARTNER [BOTTOM_LINE_2] = IDEAS • RESEARCH • WRITING [FOOTER_BADGE] = DOPE MOTION Keep the same purple neon educational/AI aesthetic, cap and glasses styling, friendly smile, centered portrait, glowing background, oversized typography, circular badges, and clean premium spacing. Replace the person with the user's uploaded image while matching the original pose, scale, and crop.`},
+{name:"Idea Lab",prompt:`Use the uploaded reference thumbnail as the visual blueprint.
+Editable fields are the words inside [SQUARE BRACKETS]. Replace those values before sending the prompt.
+Create a vertical 9:16 YouTube/Instagram thumbnail using the uploaded person photo as the ONLY identity reference for the person.
+Recreate the reference thumbnail's composition, visual hierarchy, camera framing, pose direction, lighting, color palette, background treatment, graphic elements, text placement, typography weight, shadows, outlines, stickers, arrows, icons, and overall premium high-contrast editing style as closely as possible.
+IMPORTANT: Do not redesign the template. Keep the same structure and visual balance. Replace ONLY the person, the editable text, and the editable numeric/stat elements with the values provided below. The uploaded person must remain recognizable, with natural facial proportions, realistic skin texture, and a clean professional thumbnail finish. Do not add extra objects, extra text, watermarks, logos, or random decorative elements. All text must be spelled correctly, highly legible, bold, and placed in the same approximate locations as the reference.
+Output: 1080x1920, vertical 9:16, sharp, polished, social-media thumbnail quality.
+Reference layout: the seventh uploaded thumbnail, with a stylized close-up male portrait, lavender/purple grainy paper texture, oversized warped headline at the top, sticky-note elements, subtle sketch/graphic overlays, and a large sticky note in the lower-right. Editable fields: [MAIN_HEADLINE_1] = IDEAS THAT [MAIN_HEADLINE_2] = WORK [SMALL_NOTE_1] = [short note] [SMALL_NOTE_2] = [short note] [BOTTOM_STICKY] = FRESH SIMPLE VIRAL [OPTIONAL_LABEL] = [short phrase] Keep the same editorial collage aesthetic, lavender/purple monochrome treatment, grain texture, oversized curved/warped typography, sticky notes, simple hand-drawn details, and centered close-up portrait. Apply the same stylized treatment to the user's uploaded person while preserving recognizable facial features. Do not change the overall layout.`},
+{name:"Growth Secret",prompt:`Use the uploaded reference thumbnail as the visual blueprint.
+Editable fields are the words inside [SQUARE BRACKETS]. Replace those values before sending the prompt.
+Create a vertical 9:16 YouTube/Instagram thumbnail using the uploaded person photo as the ONLY identity reference for the person.
+Recreate the reference thumbnail's composition, visual hierarchy, camera framing, pose direction, lighting, color palette, background treatment, graphic elements, text placement, typography weight, shadows, outlines, stickers, arrows, icons, and overall premium high-contrast editing style as closely as possible.
+IMPORTANT: Do not redesign the template. Keep the same structure and visual balance. Replace ONLY the person, the editable text, and the editable numeric/stat elements with the values provided below. The uploaded person must remain recognizable, with natural facial proportions, realistic skin texture, and a clean professional thumbnail finish. Do not add extra objects, extra text, watermarks, logos, or random decorative elements. All text must be spelled correctly, highly legible, bold, and placed in the same approximate locations as the reference.
+Output: 1080x1920, vertical 9:16, sharp, polished, social-media thumbnail quality.
+Reference layout: the eighth uploaded thumbnail, with a young creator in a green hoodie, bright pink background, large pink headline, green highlighted subtitle strip, Instagram-style icon, rising graph bars, upward arrow, follower/engagement cards, and floating growth badges. Editable fields: [MAIN_HEADLINE] = GROWTH [SUBHEAD] = SECRET [FOLLOWERS] = 25.7K [ENGAGEMENT] = +156% [BOTTOM_BADGE] = GROW CONSISTENTLY [BOTTOM_BADGE_2] = SHINE DAILY [RIGHT_BADGE] = FOCUS [RIGHT_BADGE_2] = GROW [OPTIONAL_LABEL] = [short phrase] Keep the same bright pink/green growth aesthetic, centered hoodie portrait, social-media icon, upward graph, arrows, cards, smoke/glow effects, bold typography, and premium influencer-thumbnail finish. Replace the person with the user's uploaded image and preserve the original pose, scale, and composition. Render every supplied number exactly; never invent metrics.`}
+];
+
+const grid=document.getElementById("templateGrid");
+templates.forEach((t,i)=>{const n=String(i+1).padStart(2,"0");const card=document.createElement("div");card.className="card";card.innerHTML=`<div class="thumbnail"><img src="thumbnails/thumbnail-${n}.jpg" alt="${t.name} AI thumbnail" loading="lazy"></div><div class="card-content"><div class="template-number">Template ${n}</div><h3>${t.name}</h3><button class="copy-btn" onclick="openPrompt(${i})">View Prompt</button></div>`;grid.appendChild(card)});
+let currentPrompt="";
+function openPrompt(i){currentPrompt=templates[i].prompt;document.getElementById("modalTitle").innerText=templates[i].name;document.getElementById("promptText").innerText=currentPrompt;document.getElementById("promptModal").classList.add("active")}
+function closePrompt(){document.getElementById("promptModal").classList.remove("active")}
+async function copyPrompt(){try{await navigator.clipboard.writeText(currentPrompt);const b=document.querySelector(".modal-copy");b.innerText="✓ Prompt Copied!";setTimeout(()=>b.innerText="Copy Prompt",1800)}catch(e){alert("Please select and copy the prompt manually.")}}
+document.getElementById("promptModal").addEventListener("click",e=>{if(e.target===document.getElementById("promptModal"))closePrompt()});document.addEventListener("keydown",e=>{if(e.key==="Escape")closePrompt()});
+</script></body></html>
